@@ -1,13 +1,18 @@
-{% extends "layout.html" %}
 
 {% block content %}
 
+<body>
+    Welcome!
+</body>
+
+<form action="" method="GET" novalidate>
+    {{course_form.}}
+</form>
+
 <ul>
-    <li>
-        {% for course in courses %}
-            <link {{course}}>
-        {% endfor %}
-    </li>
+    {% for course in courses %}
+        {{course}}
+    {% endfor %}
 </ul>
 
 {% endblock %}
