@@ -6,7 +6,28 @@
 </body>
 
 <form action="" method="GET" novalidate>
-    {{course_form.}}
+    <p>
+        {{course_form.class_id.label}}<br>
+        {{course_form.class_id(size=32)}}<br>
+        {% for error in course_form.class_id.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{course_form.course_number.label}}<br>
+        {{course_form.course_number(size=32)}}<br>
+        {% for error in course_form.course_number.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    {{course_form.course_title.label}}<br>
+    {{course_form.course_title(size=32)}}<br>
+    {% for error in course_form.course_title.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    <p>{{course_form.submit()}}</p>
+
 </form>
 
 <ul>
