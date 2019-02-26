@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired
 
 class NewCourseForm(FlaskForm):
     class_id = IntegerField('Class ID:', validators=[DataRequired()])
-    course_number = IntegerField('Course Number', validators=[DataRequired()])
+    course_number = IntegerField('Course Number:', validators=[DataRequired()])
     course_title = StringField('Course Title:', validators=[DataRequired()])
     submit = SubmitField('Submit')
 

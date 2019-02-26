@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from playground.models import Course, RegisteredStudent
 from playground.app import app, db
@@ -9,19 +9,20 @@ from playground.forms import NewCourseForm, RegisteredStudent
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    #physics_course = Course(id=1001, course_number='1001', course_title='Physics')
-    #biology_course = Course(id=1002, course_number='1002', course_title='Biology')
-    #chemistry_course = Course(id=1003, course_number='1003', course_title='Chemistry')
-
     course_form = NewCourseForm()
     if course_form.validate_on_submit():
-        return redirect(url_for('add_course', course_form))
+        flash('Sucess 1')
+        return redirect(url_for('add_course', course_form=course_form))
     courses = Course.query.all()
-    return render_template('index.html', courses=courses, course_form=course_form)
+    return render_template('index.html', course_form=course_form)
 
-@app.route("/add_course/", methods=['POST'])
+@app.route("/add_course/", methods=['GET','POST'])
 def add_course(course_form):
-    db.session.add(course_form)
+    flash('Sucess 2')
+    course_form = Course(course_form.class_id.data, course_form.course_number.data, course_form.course_title.data)
+    db.session.add(course)
+    db.session.commit()
+    flash('Course Added!')
     return render_template("index.html")
 
 @app.route("/register_student/<int:course_id>/", methods=['GET','POST'])
