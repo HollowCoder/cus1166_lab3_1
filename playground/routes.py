@@ -11,21 +11,31 @@ from playground.forms import NewCourseForm, RegisteredStudent
 def index():
     course_form = NewCourseForm()
     if course_form.validate_on_submit():
-        flash('Sucess 1')
-        return redirect(url_for('add_course', course_form=course_form))
+        course_class_id = course_form.class_id.data
+        course_number = course_form.course_number.data
+        course_title = course_form.course_title.data
+        return redirect(url_for('add_course', course_class_id=course_class_id, course_number=course_number,course_title=course_title))
     courses = Course.query.all()
-    return render_template('index.html', course_form=course_form)
+    return render_template('index.html', course_form=course_form, courses=courses)
 
-@app.route("/add_course/", methods=['GET','POST'])
-def add_course(course_form):
-    flash('Sucess 2')
-    course_form = Course(course_form.class_id.data, course_form.course_number.data, course_form.course_title.data)
+@app.route('/add_course/<course_class_id>/<course_number>/<course_title>', methods=['GET', 'POST']) #Need to pass values in URL parameters. Otherwise error.
+def add_course(course_class_id, course_number, course_title):
+    course = Course(course_class_id, course_number, course_title)
     db.session.add(course)
     db.session.commit()
     flash('Course Added!')
-    return render_template("index.html")
+    courses=Course.query.all()
+    return render_template("index.html", course_form=NewCourseForm(), courses=courses)
 
-@app.route("/register_student/<int:course_id>/", methods=['GET','POST'])
-def register_student():
+@app.route("/register_student/<int:course_id>/", methods=['GET'])
+def get_register_student():
+    course_id = Course.course_id.query.all()
+    if id==course_id:
+        
+    
+    return render_template("course_details.html")
 
-    return render_template()
+@app.route("/register_student/<int:course_id>/", methods=['POST'])
+def post_register_student():
+
+    return render_template("course_details.html")
