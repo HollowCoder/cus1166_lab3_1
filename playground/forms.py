@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField,StringField, SubmitField
+from wtforms import IntegerField, StringField, SubmitField
 from wtforms.validators import DataRequired
 
 class NewCourseForm(FlaskForm):
@@ -9,7 +9,7 @@ class NewCourseForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class RegisteredStudent(FlaskForm):
-    student_id = IntegerField('Student ID:', validators=[DataRequired()])
+    id = IntegerField('Student ID:', validators=[DataRequired()])
     name = StringField('Student Name:', validators=[DataRequired()])
     grade = IntegerField('Student Grade:', validators=[DataRequired()])
     submit = SubmitField('Submit')
