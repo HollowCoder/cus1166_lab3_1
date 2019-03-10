@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
-from playground.models import Course, RegisteredStudent
+from playground.models import Course, Student
 from playground.app import app, db
 from config import Config
 from flask_migrate import Migrate
@@ -27,20 +27,21 @@ def add_course(course_class_id, course_number, course_title):
     courses=Course.query.all()
     return render_template("index.html", course_form=NewCourseForm(), courses=courses)
 
-@app.route("/register_student/<int:course_id>/", methods=['GET', 'POST'])
-def get_register_student(id):
-    course_id = Course.query.get(id)
+@app.route("/course_details/<int:course_id>/", methods=['GET', 'POST'])
+def get_register_student(course_id):
+    course = Course.query.get(course_id)
     student_form = RegisteredStudent()
-    if student_form.validate_on_submit:
+    if student_form.validate_on_submit():
         student_id = student_form.id.data
         student_name = student_form.name.data
         student_grade = student_form.grade.data
-        return redirect(url_for('register_student', course_id=course_id, student_id=student_id, student_name=student_name, student_grade=student_grade))
-       
+        return redirect(url_for("post_register_student", course_id=course_id, student_id=student_id, student_name=student_name, student_grade=student_grade))
     students = course.students
-    return render_template("course_details.html", course=course, course_id=course_id, students=students)
+    return render_template("course_details.html", course=course, student_form=student_form, students=students)
 
-@app.route("/register_student/<course_id>/<student_id>/<student_name>/<student_grade>", methods=['POST'])
-def post_register_student():
-    new_student = RegisteredStudent(student_id=student_id, student_name=student_name, student_grade=student_grade, course_id=course_id)
-    return render_template("course_details.html")
+@app.route("/course_details/<int:course_id>/<student_id>/<student_name>/<student_grade>", methods=['GET','POST'])
+def post_register_student(course_id, student_id, student_name, student_grade):
+    new_student = Student(course_id, student_id, student_name, student_grade)
+    db.session.add(new_student)
+    db.session.commit()
+    return redirect(url_for("get_register_student", course_id=course_id))

@@ -31,10 +31,10 @@
 
 </form>
 
-<ul>
-    {% for course in courses %}
-    <p>{{ course.course_title }}</p>
-    {% endfor %}
-</ul>
+{% for course in courses %}
+<li>
+    <b><a href="{{url_for('get_register_student', course_id=course.course_id)}}"> {{course.course_number}} {{ course.course_title }}</a></b>
+</li>
+{% endfor %}
 
 {% endblock %}

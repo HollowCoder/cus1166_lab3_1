@@ -11,5 +11,5 @@ class NewCourseForm(FlaskForm):
 class RegisteredStudent(FlaskForm):
     id = IntegerField('Student ID:', validators=[DataRequired()])
     name = StringField('Student Name:', validators=[DataRequired()])
-    grade = IntegerField('Student Grade:', validators=[DataRequired()])
+    grade = StringField('Student Grade:', validators=[DataRequired()])
     submit = SubmitField('Submit')

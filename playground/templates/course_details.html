@@ -1,38 +1,45 @@
-{% extends "layout.html"}
+{% extends "layout.html" %}
 {% block content %}
 
 <html>
     <h1> Registration Page </h1>
-    <h2><a href="{{url_for('index')}}"> Return to home page. </a></h2>
-
-    <b>Course ID:</b> {{course.id}}
+    <b>Course ID:</b> {{course.course_id}}
     <b>Course Number:</b> {{course.course_number}}
     <b>Course Title:</b> {{course.course_title}}
 
-    <form action="{{url_for('register_student', course_id=course_id)}}" method="POST">
+    <form action="" method="POST">
         {{ student_form.hidden_tag() }}
-        <p>Student Name 
-            {{ student_form.student_id.label }}<br>
-            {{ student_form.student_id(size=32 )}}<br>
-            {% for error in student_form.student_id.errors %}
+        <p>
+            {{ student_form.name.label }}<br>
+            {{ student_form.name(size=32 )}}<br>
+            {% for error in student_form.name.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>Student Grade
-            {{ student_form.student_grade.label }}<br>
-            {{ student_form.student_grade(size=32 )}}<br>
-            {% for error in student_form.student_grade.errors %}
+        <p>
+            {{ student_form.id.label }}<br>
+            {{ student_form.id(size=32 )}}<br>
+            {% for error in student_form.id.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ student_form.grade.label }}<br>
+            {{ student_form.grade(size=32 )}}<br>
+            {% for error in student_form.grade.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>{{ student_form.submit() }}</p>
 
     </form>
-
-    {% for student in students}
-    <b>Name:</b> {{}}
-    
-
+    <li>
+        {% for student in students %}
+        <b>Name: </b> {{ student.student_name }}
+        <b>ID: </b> {{ student.student_id }}
+        <b>Grade: </b> {{ student.student_grade }}
+        {% endfor %}
+    </li>
 </html>
 
 {% endblock %}
